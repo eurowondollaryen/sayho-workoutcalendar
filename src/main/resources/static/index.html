@@ -2,15 +2,51 @@
 <html>
 	<head>
 		<meta charset="UTF-8"/>
-		<title>hello world!</title>
-		<script src="js/jquery.min.js"></script>
-		<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
-		<script src="js/bootstrap/bootstrap.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>운동 일지</title>
+		<script src="./js/jquery.min.js"></script>
+		<link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css">
+		<script src="./js/bootstrap/bootstrap.min.js"></script>
+		 
+		<script>
+			$(document).ready(function() {
+				
+			});
+		</script>
+		<style>
+			.sayho-updown {
+				padding-top: 20px;
+				padding-bottom: 20px;
+			}
+		</style>
 	</head>
 	<body>
-		<div class="container">
+		<nav class="navbar navbar-expand-sm bg-warning navbar-dark">
+		  <ul class="navbar-nav">
+		    <li class="nav-item active">
+		      <a class="nav-link" href="#">My Workout Calendar</a>
+		    </li>
+		    <li class="nav-item">
+		      <a class="nav-link" href="#">Link</a>
+		    </li>
+		    <li class="nav-item">
+		      <a class="nav-link disabled" href="#">Disabled</a>
+		    </li>
+		  </ul>
+		</nav>
+		<div class="container sayho-updown">
 			<div class="card shadow">
-				<h4>this is card</h4>
+				<!-- calendar area -->
+				<div class="container sayho-updown">
+					<h4>Calendar</h4>
+					<p>This is calendar area.</p>
+				</div>
+			</div>
+			<div class="card shadow">
+				<div class="container sayho-updown">
+					<h4>Workout Volumne</h4>
+					<p>This is workout volume area.</p>
+				</div>
 			</div>
 		</div>
 	</body>
