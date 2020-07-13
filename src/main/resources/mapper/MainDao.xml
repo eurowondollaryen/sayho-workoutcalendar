@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayho.workoutcalendar.dao.MainDao">
+  <select id="testQuery" parameterType="String" resultType="com.sayho.workoutcalendar.model.Workout">
+    SELECT WO_DIV WODIV,
+           WO_COD WOCOD,
+           WO_NM WONM
+    FROM COMWORKOUTS
+  </select> 
+  <!-- 
+  <insert id="insertUser"
+          parameterType="org.ltis.klid.ttprsvr.model.Ttpr001">
+    insert into ttpr001(userid, username, age)
+    values(#{userid}, #{username}, #{age})
+  </insert> 
+  
+  <update id="updateUser"
+          parameterType="org.ltis.klid.ttprsvr.model.Ttpr001">
+  UPDATE ttpr001 
+     SET username = #{username},
+         age = #{age} 
+   WHERE userid = #{userid}
+  </update>
+  
+  <delete id="deleteUser" parameterType="int">
+  DELETE FROM ttpr001
+  WHERE userid = #{userid}
+  </delete>
+-->
+</mapper>
