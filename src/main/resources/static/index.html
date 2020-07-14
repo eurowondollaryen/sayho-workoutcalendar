@@ -3,14 +3,128 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>운동 일지</title>
+		<title>My Workout Calendar</title>
 		<script src="./js/jquery.min.js"></script>
 		<link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css">
 		<script src="./js/bootstrap/bootstrap.min.js"></script>
-		 
+		<style>
+			.sayho-col {
+				display: inline-block;
+				width: 14.28%;
+				height: 75px;
+				border: solid 0.5px;
+				border-radius: 5px;
+				padding: 5px;
+				font-size: 18px;
+			}
+			.sayho-col-6 {
+				display: inline-block;
+				width: 60%;
+			}
+			.sayho-col-2 {
+				display: inline-block;
+				width: 20%;
+			}
+			.sayho-row {
+				display: block;
+				width: 100%;
+			}
+			.sayho-calendar-left { text-align: left; }
+			.sayho-calendar-right { text-align: right; }
+			.sayho-calendar-title {
+				font-weight: bold;
+				font-size: 25px;
+				text-align: center;
+			}
+			.sayho-sunday {
+				background-color: #F64C72;
+			}
+			.sayho-saturday {
+				background-color: #4BB9F6;
+			}
+			.sayho-grayday {
+				background-color: #A6FE77;
+			}
+		</style>
 		<script>
-			$(document).ready(function() {
+			function addWorkout(year, month, day) {
+				console.log(year + "/" + month + "/" + day);
+			}
+			function buildCalendar(year, month) {
+				/* CLEAR CALENDAR FIRST */
+				var calendar = document.getElementById("calendar");
+				calendar.innerHTML = ""
 				
+				/* SET TODAY TO FIRST DAY OF THE MONTH */
+				var today = new Date();
+				today.setYear(year);
+				today.setMonth(month);
+				today.setDate(1);
+				year = today.getFullYear();
+				month = today.getMonth();
+				
+				/* SET CALENDAR TITLE */
+				var calendar_title_wrapper = document.createElement("DIV");
+				calendar_title_wrapper.classList.add("sayho-row");
+				var calendar_title_left = document.createElement("DIV");
+				calendar_title_left.classList.add("sayho-calendar-left");
+				calendar_title_left.classList.add("sayho-col-2");
+				calendar_title_left.setAttribute("onClick", "buildCalendar(" + year + ", " + (month-1) + ")");
+				calendar_title_left.innerHTML = "◀";
+				var calendar_title_right = document.createElement("DIV");
+				calendar_title_right.classList.add("sayho-calendar-right");
+				calendar_title_right.classList.add("sayho-col-2");
+				calendar_title_right.setAttribute("onClick", "buildCalendar(" + year + ", " + (month+1) + ")");
+				calendar_title_right.innerHTML = "▶";
+				var calendar_title = document.createElement("DIV");
+				calendar_title.classList.add("sayho-calendar-title");
+				calendar_title.classList.add("sayho-col-6");
+				calendar_title.innerHTML = year + "年 " + (month+1) + "月";
+				
+				calendar_title_wrapper.appendChild(calendar_title_left);
+				calendar_title_wrapper.appendChild(calendar_title);
+				calendar_title_wrapper.appendChild(calendar_title_right);
+				
+				calendar.appendChild(calendar_title_wrapper);
+				
+				
+				var dayofweek = today.getDay();
+				if(dayofweek != 0) {
+					today.setDate(1-dayofweek);
+				}
+				
+				for(var i = 0; i < 6; ++i) {//7x6=42
+					var row = document.createElement("DIV");
+					row.classList.add("sayho-row");
+					for(var j = 0; j < 7; ++j) {
+						var cell = document.createElement("DIV");
+						cell.setAttribute("id", "cell" + i + "-" + j);
+						cell.classList.add("sayho-col");
+						cell.setAttribute("onClick", "addWorkout(" + today.getFullYear() + "," + (today.getMonth()+1) + "," + today.getDate() + ")");
+						
+						if(today.getMonth() != month) {
+							cell.classList.add("sayho-grayday");
+						}
+						else {
+							if(today.getDay() == 0) {
+								cell.classList.add("sayho-sunday");
+							} else if(today.getDay() == 6) {
+								cell.classList.add("sayho-saturday");
+							}
+						}
+							
+						
+						cell.innerHTML = today.getDate();
+						
+						row.appendChild(cell);
+						today.setDate(today.getDate()+1);
+					}
+					calendar.appendChild(row);
+				}
+			}
+			$(document).ready(function() {
+				const today = new Date();
+				buildCalendar(today.getFullYear(), today.getMonth());
 			});
 		</script>
 		<style>
@@ -38,13 +152,13 @@
 			<div class="card shadow">
 				<!-- calendar area -->
 				<div class="container sayho-updown">
-					<h4>Calendar</h4>
-					<p>This is calendar area.</p>
+					<h3>Workout Calendar</h3>
+					<div id="calendar"></div>
 				</div>
 			</div>
 			<div class="card shadow">
 				<div class="container sayho-updown">
-					<h4>Workout Volumne</h4>
+					<h3>Workout Volumne</h3>
 					<p>This is workout volume area.</p>
 				</div>
 			</div>
