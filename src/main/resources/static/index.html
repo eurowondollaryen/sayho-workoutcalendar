@@ -59,8 +59,8 @@
 		<script>
 			var global_workout_cod = [];
 			function addWorkout(year, month, day) {
-				console.log(year + "/" + month + "/" + day);
-				
+				var ymd = year + "/" + month + "/" + day;
+				document.getElementById("addWorkoutModalTitle").innerHTML = "운동 기록 추가하기 - " + ymd 
 			}
 			function buildCalendar(year, month) {
 				/* CLEAR CALENDAR FIRST */
@@ -164,7 +164,7 @@
 				for(var i = 0; i < numOfReps; ++i) {
 					var inp = document.createElement("input");
 					inp.setAttribute("type", "number");
-					inp.classList.add("form-control", "inpReps");
+					inp.classList.add("inpReps");
 					repsInputArea.appendChild(inp);
 				}
 			}
@@ -249,7 +249,7 @@
 		        </button>
 		      </div>
 		      <div class="modal-body">
-		        <form class="container form-group">
+		        <div class="container">
 		          <div class="row">
 		            <label for="inpPartMain" class="col-4">운동 부위 </label>
 		            <select class="form-control col-8" id="inpPartMain" onChange="filterInpWo()"></select>
@@ -270,7 +270,7 @@
 		            <button class="btn btn-warning col-4" onClick="createRepsInput()">세트당 반복횟수 입력하기</button>
 		          </div>
 		          <div id="repsInputArea"></div>
-		        </form>
+		        </div>
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
