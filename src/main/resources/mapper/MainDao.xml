@@ -5,8 +5,14 @@
 <mapper namespace="com.sayho.workoutcalendar.dao.MainDao">
   <select id="testQuery" parameterType="String" resultType="com.sayho.workoutcalendar.model.Workout">
     SELECT WO_DIV WODIV,
+           PART_MAIN_COD PARTMAINCOD,
+           PART_MAIN_NM PARTMAINNM,
+           PART_SUB_COD PARTSUBCOD,
+           PART_SUB_NM PARTSUBNM,
            WO_COD WOCOD,
-           WO_NM WONM
+           WO_NM_EN WONMEN,
+           WO_NM_KOR WONMKOR,
+           WEIGHT_RATE WEIGHTRATE
     FROM COMWORKOUTS
   </select> 
   <!-- 
