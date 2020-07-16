@@ -58,9 +58,54 @@
 		</style>
 		<script>
 			var global_workout_cod = [];
-			function addWorkout(year, month, day) {
-				var ymd = year + "/" + month + "/" + day;
-				document.getElementById("addWorkoutModalTitle").innerHTML = "운동 기록 추가하기 - " + ymd 
+			function addWorkout(year, month, date) {
+				if(month < 10) month = "0" + month;
+				if(date < 10) date = "0" + date;
+				var ymd = year + "/" + month + "/" + date;
+				document.getElementById("addWorkoutModalTitle").innerHTML = "<div>운동 기록 추가하기</div><div id ='selectedModalYmd'>" + ymd + "</div>"; 
+				document.getElementById("repsInputArea").innerHTML = "";
+			}
+			
+			function saveWorkout() {
+				var woDt = document.getElementById("selectedModalYmd").innerHTML.replace('/','').replace('/','');
+				var inpPartMain = document.getElementById("inpPartMain").value;
+				var inpWo = document.getElementById("inpWo").value;
+				var inpWeight = document.getElementById("inpWeight").value;
+				var inpRestTime = document.getElementById("inpRestTime").value;
+				var inpReps = document.getElementsByClassName("inpReps");
+				var strReps = "";
+				var inpSets = inpReps.length;
+				
+				for(var i = 0; i < inpSets; ++i) {
+					if(i != 0) strReps += "|";
+					strReps += inpReps[i].value;					
+				}
+				
+				var requestData = {
+						usrId: 'sehoakasayho',/*FOR TEST*/
+						woDt: woDt,
+						partMainCod: inpPartMain,
+						woCod: inpWo,
+						restTimeSec: inpRestTime,
+						sets : inpSets,
+						reps : strReps,
+						weight: inpWeight
+				};
+				console.log("insert workout!");
+				console.log(requestData);
+				
+				$.ajax({
+					type: "post",
+					url: "/insertWorkoutRecord",
+					data: requestData,
+					success: function(result) {
+						alert("운동을 성공적으로 등록했습니다!");
+						document.getElementById("btnModalClose").click();
+					},
+					error : function(xhr, textStatus, errorThrown) {
+						alert("운동을 등록하는 데 실패하였습니다..\n" + xhr.status + " " + xhr.statusText);
+					}
+				});
 			}
 			function buildCalendar(year, month) {
 				/* CLEAR CALENDAR FIRST */
@@ -177,7 +222,7 @@
 					url: "/getworkoutcode",
 					/*data: {param: 'string'},*/
 					success: function(result) {
-						console.log('request success!');
+						console.log('init success!');
 						console.log(result);
 						global_workout_cod = result.data;
 						
@@ -259,22 +304,27 @@
 		            <select class="form-control col-8" id="inpWo"></select>
 		          </div>
 		          <div class="row">
-		            <label for="inpRestTime col-4">세트간 쉬는시간</label>
+		            <label for="inpWeight" class="col-4">중량</label>
+		            <input class="form-control col-6" type="number" id="inpWeight" value="65"/>
+		            <div class="unit col-2">kg</div>
+		          </div>
+		          <div class="row">
+		            <label for="inpRestTime" class="col-4">세트간 쉬는시간</label>
 		            <input class="form-control col-6" type="number" id="inpRestTime" value="60"/>
-		            <div class="unit col-2" id="unit">초</div>
+		            <div class="unit col-2">초</div>
 		          </div>
 		          <div class="row">
 		            <label for="inpSets" class="col-4">세트 수</label>
 		            <input class="form-control col-2" type="number" id="inpSets" value="5"/>
 		            <div class="unit col-2">세트</div>
-		            <button class="btn btn-warning col-4" onClick="createRepsInput()">세트당 반복횟수 입력하기</button>
+		            <button class="btn btn-warning col-4" onClick="createRepsInput()">세트당 반복횟수</button>
 		          </div>
 		          <div id="repsInputArea"></div>
 		        </div>
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-		        <button type="button" class="btn btn-primary">저장</button>
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnModalClose">닫기</button>
+		        <button type="button" class="btn btn-primary" onClick="saveWorkout()">저장</button>
 		      </div>
 		    </div>
 		  </div>
