@@ -67,6 +67,16 @@
 			}
 			
 			function saveWorkout() {
+				/*
+				* 운동일자
+				* 메인부위코드
+				* 종목코드
+				* 무게
+				* 쉬는시간
+				* 반복횟수
+				* 각 세트당 반복횟수(string, | 구분자)
+				* 
+				*/
 				var woDt = document.getElementById("selectedModalYmd").innerHTML.replace('/','').replace('/','');
 				var inpPartMain = document.getElementById("inpPartMain").value;
 				var inpWo = document.getElementById("inpWo").value;
@@ -76,7 +86,43 @@
 				var strReps = "";
 				var inpSets = inpReps.length;
 				
+				/* INPUT VALUE CHECK */
+				
+				if(!inpPartMain) {
+					alert("선택된 운동 부위가 없습니다.");
+					return;
+				}
+				if(!inpWo) {
+					alert("선택된 운동 종목이 없습니다.");
+					return;
+				}
+				if(!inpWeight) {
+					alert("중량을 입력해 주세요.");
+					return;
+				} else if(inpWeight < 1 ) {
+					alert("중량은 자연수만 입력 가능합니다.");
+					return;
+				}
+				if(!inpRestTime) {
+					alert("쉬는 시간을 입력해 주세요.");
+					return;
+				} else if(inpRestTime < 1) {
+					alert("쉬는 시간은 자연수만 입력 가능합니다.");
+					return;
+				}
+				if(inpSets < 1) {
+					alert("각 세트 반복 횟수를 입력해 주세요.");
+					createRepsInput();
+					return;
+				}
 				for(var i = 0; i < inpSets; ++i) {
+					if(!inpReps[i].value) {
+						alert((i+1) + "번째 세트 반복 횟수를 입력해 주세요.");
+						return;
+					} else if (inpReps[i].value < 1) {
+						alert((i+1) + "번째 세트 반복 횟수를 자연수로 입력해 주세요.");
+						return;
+					}
 					if(i != 0) strReps += "|";
 					strReps += inpReps[i].value;					
 				}
@@ -305,17 +351,17 @@
 		          </div>
 		          <div class="row">
 		            <label for="inpWeight" class="col-4">중량</label>
-		            <input class="form-control col-6" type="number" id="inpWeight" value="65"/>
+		            <input class="form-control col-6" type="number" id="inpWeight" value="65" max="1000" min="1"/>
 		            <div class="unit col-2">kg</div>
 		          </div>
 		          <div class="row">
 		            <label for="inpRestTime" class="col-4">세트간 쉬는시간</label>
-		            <input class="form-control col-6" type="number" id="inpRestTime" value="60"/>
+		            <input class="form-control col-6" type="number" id="inpRestTime" value="60" max="600" min="10"/>
 		            <div class="unit col-2">초</div>
 		          </div>
 		          <div class="row">
 		            <label for="inpSets" class="col-4">세트 수</label>
-		            <input class="form-control col-2" type="number" id="inpSets" value="5"/>
+		            <input class="form-control col-2" type="number" id="inpSets" value="5" max="300" min="1"/>
 		            <div class="unit col-2">세트</div>
 		            <button class="btn btn-warning col-4" onClick="createRepsInput()">세트당 반복횟수</button>
 		          </div>

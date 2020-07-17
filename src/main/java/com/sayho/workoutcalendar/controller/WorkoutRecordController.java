@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sayho.workoutcalendar.service.WorkoutRecordService;
+import com.sayho.workoutcalendar.util.Calculator;
+import com.sayho.workoutcalendar.util.DataChecker;
 
 @RestController
 public class WorkoutRecordController {
@@ -21,16 +23,26 @@ public class WorkoutRecordController {
 	@RequestMapping("/insertWorkoutRecord")
 	public Map<String, Object> insertWorkoutRecord(@RequestParam Map<String, Object> record,
 			HttpServletRequest request) throws Exception {//@Responsebody를 String 앞에 붙이면 문자열 그자체를 반환함
-		System.out.println(record);
-		record.put("restTimeSec", Integer.parseInt((String)record.get("restTimeSec")));
-		record.put("sets", Integer.parseInt((String)record.get("sets")));
-		record.put("weight", Integer.parseInt((String)record.get("weight")));
-		//record.get("restTimeSec")
-		int insertResult = service.insertWorkoutRecord(record);
+		DataChecker dc = new DataChecker();//for null check
+		Calculator c = new Calculator();//for calculate volume
+		Integer restTimeSec = Integer.parseInt((String)record.get("restTimeSec"));
+		Integer sets = Integer.parseInt((String)record.get("sets"));
+		Integer weight = Integer.parseInt((String)record.get("weight"));
+		String reps = (String) record.get("strReps");
+		
+		record.put("restTimeSec", restTimeSec);
+		record.put("sets", sets);
+		record.put("weight", weight);
+		//CALCULATE VOLUME
+		record.put("volume", c.calculateVolume(weight, reps));
+		
+		/* PREPARE RESULT */
 		Map<String, Object> result = new HashMap<>();
 		result.put("status", true);
 		result.put("datetime", new Date());
-		result.put("data", insertResult);
+		
+		if(dc.hashMapNullCheck(record) < 0) result.put("data", "NullExists");
+		else result.put("data", service.insertWorkoutRecord(record));
 		return result;
 	}
 }
