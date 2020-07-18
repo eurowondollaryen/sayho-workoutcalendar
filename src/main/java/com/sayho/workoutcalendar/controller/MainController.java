@@ -17,7 +17,7 @@ public class MainController {
 	@Autowired
 	MainService service;
 	
-	@RequestMapping("/getworkoutcode")
+	@RequestMapping("/main/getworkoutcode")
 	public Map<String, Object> mainView() throws Exception {//@Responsebody를 String 앞에 붙이면 문자열 그자체를 반환함
 		List<Workout> workoutList = service.workoutList();
 		Map<String, Object> result = new HashMap<>();

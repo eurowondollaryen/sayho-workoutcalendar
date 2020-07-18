@@ -2,6 +2,7 @@ package com.sayho.workoutcalendar.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sayho.workoutcalendar.model.Workout;
 import com.sayho.workoutcalendar.service.WorkoutRecordService;
 import com.sayho.workoutcalendar.util.Calculator;
 import com.sayho.workoutcalendar.util.DataChecker;
@@ -20,7 +22,18 @@ public class WorkoutRecordController {
 	@Autowired
 	WorkoutRecordService service;
 	
-	@RequestMapping("/insertWorkoutRecord")
+	@RequestMapping("/wr/selectWorkoutRecord")
+	public Map<String, Object> selectWorkoutRecord(@RequestParam Map<String, Object> record,
+			HttpServletRequest request) throws Exception {
+		List<Map<String, Object>> workoutRecordList = service.selectWorkoutRecord(record);
+		Map<String, Object> result = new HashMap<>();
+		result.put("status", true);
+		result.put("datetime", new Date());
+		result.put("data", workoutRecordList);
+		return result;
+	}
+	
+	@RequestMapping("/wr/insertWorkoutRecord")
 	public Map<String, Object> insertWorkoutRecord(@RequestParam Map<String, Object> record,
 			HttpServletRequest request) throws Exception {//@Responsebody를 String 앞에 붙이면 문자열 그자체를 반환함
 		DataChecker dc = new DataChecker();//for null check

@@ -1,5 +1,6 @@
 package com.sayho.workoutcalendar.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -13,7 +14,10 @@ public class WorkoutRecordDao {
 	private SqlSession sqlSession;
 	
 	private static String NAME_SPACE = "com.sayho.workoutcalendar.dao.WorkoutRecordDao.";
- 
+	
+	public List<Map<String, Object>> selectWorkoutRecord(Map<String, Object> record) {
+		return sqlSession.selectList(NAME_SPACE+"selectWorkoutRecord", record);
+	}
  	public int insertWorkoutRecord(Map<String, Object> record){
  		return sqlSession.insert(NAME_SPACE+"insertWorkoutRecord", record);
 	}

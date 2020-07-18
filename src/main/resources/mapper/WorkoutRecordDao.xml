@@ -3,10 +3,29 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayho.workoutcalendar.dao.WorkoutRecordDao">
-  <insert id="insertWorkoutRecord" parameterType="java.util.Map">
-    INSERT INTO ICTWORKOUTRECORD(USR_ID, REG_DT, WO_DT, PART_MAIN_COD, WO_COD, REST_TIME_SEC, SETS, REPS, WEIGHT, VOLUME)
-    VALUES(#{usrId}, TO_CHAR(NOW(), 'YYYYMMDD'), #{woDt}, #{partMainCod}, #{woCod}, #{restTimeSec}, #{sets}, #{reps}, #{weight}, #{volume})
-  </insert> 
+    <select id="selectWorkoutRecord" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT A.WO_DT,
+               B.PART_MAIN_COD,
+               B.WO_COD,
+               B.PART_MAIN_NM,
+               B.WO_NM_KOR,
+               A.REST_TIME_SEC,
+               A.SETS,
+               A.REPS,
+               A.WEIGHT,
+               A.VOLUME
+        FROM ICTWORKOUTRECORD A,
+             COMWORKOUTS B
+        WHERE A.PART_MAIN_COD = B.PART_MAIN_COD
+        AND A.WO_COD = B.WO_COD
+        AND A.USR_ID = #{inpUsrId}
+        AND SUBSTR(A.WO_DT,1,6) = #{inpWoDt}
+        ORDER BY A.WO_DT, B.PART_MAIN_COD, B.WO_COD
+    </select>
+    <insert id="insertWorkoutRecord" parameterType="java.util.Map">
+        INSERT INTO ICTWORKOUTRECORD(USR_ID, REG_DT, WO_DT, PART_MAIN_COD, WO_COD, REST_TIME_SEC, SETS, REPS, WEIGHT, VOLUME)
+        VALUES(#{usrId}, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS'), #{woDt}, #{partMainCod}, #{woCod}, #{restTimeSec}, #{sets}, #{reps}, #{weight}, #{volume})
+    </insert>
   <!-- 
   <insert id="insertUser"
           parameterType="org.ltis.klid.ttprsvr.model.Ttpr001">
