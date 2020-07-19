@@ -24,8 +24,10 @@
 				height: 75px;
 				border: solid 0.5px;
 				border-radius: 5px;
+				vertical-align: top;
 				padding: 5px;
 				font-size: 18px;
+				overflow: hidden;
 			}
 			.sayho-col-6 {
 				display: inline-block;
@@ -55,10 +57,31 @@
 			.sayho-grayday {
 				background-color: #A6FE77;
 			}
+			.workout-record {
+				width: 100%;
+				font-size: 10px;
+			}
 		</style>
 		<script>
 			var global_workout_cod = [];
 			var global_workout_data = [];
+			
+			/* NOT IMPLEMENTED YET */
+			function showWorkoutRecord(ind) {
+				console.log(global_workout_data[ind]);
+			}
+			/* COMMON FUNCTION FOR CONVERT DATE OBJECT TO STRING */
+			function getYymmddFromDate(d) {
+				if(d) {
+					var mm = d.getMonth()+1 < 10 ? "0" + (d.getMonth()+1) : "" + (d.getMonth()+1);
+					var dd = d.getDate()+1 < 10 ? "0" + (d.getDate()) : "" + (d.getDate());
+					return d.getFullYear() + mm + dd;
+				} else {
+					return "-1";
+				}
+			}
+			
+			/* SET MODAL WHEN SELECT CALENDAR CELL */
 			function addWorkout(year, month, date) {
 				if(month < 10) month = "0" + month;
 				if(date < 10) date = "0" + date;
@@ -67,6 +90,9 @@
 				document.getElementById("repsInputArea").innerHTML = "";
 			}
 			
+			/*
+			* INSERT WORKOUT RECORD INTO DB
+			*/
 			function saveWorkout() {
 				/*
 				* 운동일자
@@ -154,6 +180,8 @@
 					}
 				});
 			}
+			
+			/* BUILD CALENDAR AND GET WORKOUT RECORD OF THE MONTH */
 			function buildCalendar(year, month) {
 				
 				/* THEN CLEAR CALENDAR */
@@ -203,7 +231,8 @@
 					row.classList.add("sayho-row");
 					for(var j = 0; j < 7; ++j) {
 						var cell = document.createElement("DIV");
-						cell.setAttribute("id", "cell" + i + "-" + j);
+						
+						cell.setAttribute("id", "cell" + getYymmddFromDate(today));
 						cell.classList.add("sayho-col");
 						cell.setAttribute("onClick", "addWorkout(" + today.getFullYear() + "," + (today.getMonth()+1) + "," + today.getDate() + ")");
 						cell.setAttribute("data-toggle", "modal");
@@ -222,25 +251,6 @@
 						
 						cell.innerHTML = today.getDate();
 						
-						/* append Workout Data */
-						/*
-						var mm = today.getMonth() + 1;
-						var dd = today.getDate();
-						if(mm < 10) mm = "0" + mm;
-						else mm = "" + mm;
-						if(dd < 10) dd = "0" + dd;
-						else dd = "" + dd;
-						const yyyymmdd = today.getFullYear + mm + dd;
-						for(var k = 0; k < global_workout_data.length; ++k) {
-							if(global_workout_data[k]["wo_dt"] == yyyymmdd) {
-								var appendData = document.createElement("DIV");
-								appendData.classList.add("workout-record");
-								appendData.innerHTML = global_workout_data[k]["wo_nm_kor"];
-								cell.appendChild(appendData);
-								
-							}
-						}
-						*/
 						row.appendChild(cell);
 						today.setDate(today.getDate()+1);
 					}
@@ -261,8 +271,15 @@
 						console.log('requesting workout record success!');
 						console.log(result);
 						global_workout_data = result.data;
-						
-						for()
+						for(var i = 0; i < global_workout_data.length; ++i) {
+							var targetCell = document.getElementById("cell" + global_workout_data[i]["wo_dt"]);
+							var wrElem = document.createElement("DIV");
+							wrElem.setAttribute("id", "wr" + i);
+							wrElem.classList.add("workout-record");
+							wrElem.setAttribute("onClick", "showWorkoutRecord(" + i + ")");
+							wrElem.innerHTML = global_workout_data[i]["part_main_nm"] + "-" + global_workout_data[i]["wo_nm_kor"];
+							targetCell.appendChild(wrElem);
+						}
 					},
 					error : function(xhr, textStatus, errorThrown) {
 						alert("운동 기록을 가져오는 데 실패했습니다..\n" + xhr.status + " " + xhr.statusText);
