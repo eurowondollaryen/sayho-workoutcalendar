@@ -21,4 +21,15 @@ public class WorkoutRecordDao {
  	public int insertWorkoutRecord(Map<String, Object> record){
  		return sqlSession.insert(NAME_SPACE+"insertWorkoutRecord", record);
 	}
+ 	public int deleteWorkoutRecord(Map<String, Object> record){
+ 		/* NEED TO REPLACE SPLIT FUNCTION TO SUBSTR LATER - 20200721 */
+ 		String seqList = (String) record.get("seqList");
+ 		String[] seqArr = seqList.split("\\|");//| is regex so "\\" is needed
+ 		
+ 		int retVal = 0;
+ 		for(int i = 0; i < seqArr.length; ++i) {
+ 			retVal += sqlSession.delete(NAME_SPACE+"deleteWorkoutRecord", Integer.parseInt(seqArr[i]));
+ 		}
+ 		return retVal;
+	}
 }

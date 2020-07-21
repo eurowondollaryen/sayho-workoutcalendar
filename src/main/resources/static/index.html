@@ -68,6 +68,7 @@
 			
 			/* NOT IMPLEMENTED YET .... IMPLEMENTED IN addWorkout.
 			NEED TO CLEAN CODE ! */
+			/* WHEN CLICK EACH WORKOUTRECORD IN CELL */
 			function showWorkoutRecord(ind) {
 				console.log(global_workout_data[ind]);
 			}
@@ -102,10 +103,16 @@
 						todayWorkoutData.push(global_workout_data[i]);
 						var addTarget = document.getElementById("showWorkoutModalBody");
 						var addDiv = document.createElement("DIV");
+						var addCheckbox = document.createElement("input");
 						addDiv.classList.add("sayho-modal-show-body");
-						addDiv.innerHTML = global_workout_data[i]["part_main_nm"] + "/"
+						addDiv.appendChild(addCheckbox);
+						addDiv.append(global_workout_data[i]["part_main_nm"] + "/"
 						+ global_workout_data[i]["wo_nm_kor"] + "/"
-						+ global_workout_data[i]["reps"];
+						+ global_workout_data[i]["reps"]);
+						addCheckbox.setAttribute("type", "checkbox");
+						addCheckbox.classList.add("checkbox-workout-record");
+						addCheckbox.setAttribute("value", global_workout_data[i]["seq"]);
+						
 						/* NOT DESIGNED YET - 20200720 */
 						addTarget.appendChild(addDiv);
 					}
@@ -122,9 +129,49 @@
 				
 			}
 			
+			/* DELETE WORKOUT RECORD ON sayho-show-modal*/
+			function deleteWorkoutRecord() {
+				var checkboxes = document.getElementsByClassName("checkbox-workout-record");
+				var requestData = {
+					seqList: ""
+				};
+				for(var i = 0; i < checkboxes.length; ++i) {
+					if(checkboxes[i].checked) {
+						if(requestData["seqList"].length <= 0) requestData["seqList"] += checkboxes[i].value;
+						else requestData["seqList"] += ("|" + checkboxes[i].value); 
+					}
+				}
+				
+				if(requestData["seqList"].length <= 0) {
+					alert("삭제할 기록을 선택해 주세요.");
+					return;
+				} else {
+					$.ajax({
+						type: "post",
+						url: "/wr/deleteWorkoutRecord",
+						data: requestData,
+						success: function(result) {
+							alert("운동을 성공적으로 삭제했습니다!");
+							document.getElementById("btnModalClose").click();
+						},
+						error : function(xhr, textStatus, errorThrown) {
+							alert("운동을 삭제하는 데 실패하였습니다..\n" + xhr.status + " " + xhr.statusText);
+						}
+					});
+				}
+			}
+			
+			
 			/* OPEN sayho-modal-add */
 			function openModalAdd() {
-				document.getElementById("sayho-modal-add").setAttribute("style", "display:block;");
+				var btnState = document.getElementById("btnModalAdd");
+				if(btnState.innerHTML == "운동 추가하기") {
+					document.getElementById("sayho-modal-add").setAttribute("style", "display:block;");
+					btnState.innerHTML = "접기";
+				} else if(btnState.innerHTML == "접기") {
+					document.getElementById("sayho-modal-add").setAttribute("style", "display:none;");
+					btnState.innerHTML = "운동 추가하기";
+				}
 			}
 			
 			/*
@@ -211,6 +258,8 @@
 					success: function(result) {
 						alert("운동을 성공적으로 등록했습니다!");
 						document.getElementById("btnModalClose").click();
+						/* REFRESH PAGE */
+						buildCalendar(Number(woDt.substr(0,4)), Number(woDt.substr(4,2))-1);
 					},
 					error : function(xhr, textStatus, errorThrown) {
 						alert("운동을 등록하는 데 실패하였습니다..\n" + xhr.status + " " + xhr.statusText);
@@ -437,6 +486,7 @@
 		      show modal body part
 		      </div>
 		      <div class="modal-footer">
+		      <button type="button" class="btn btn-danger" id="btnModalDelete" onClick="deleteWorkoutRecord()">운동 삭제하기</button>
 		      <button type="button" class="btn btn-primary" id="btnModalAdd" onClick="openModalAdd()">운동 추가하기</button>
 		      </div>
 		    </div>

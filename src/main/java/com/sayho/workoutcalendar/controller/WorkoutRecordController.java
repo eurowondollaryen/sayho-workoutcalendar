@@ -58,4 +58,14 @@ public class WorkoutRecordController {
 		else result.put("data", service.insertWorkoutRecord(record));
 		return result;
 	}
+	
+	@RequestMapping("/wr/deleteWorkoutRecord")
+	public Map<String, Object> deleteWorkoutRecord(@RequestParam Map<String, Object> record,
+			HttpServletRequest request) throws Exception {
+		Map<String, Object> result = new HashMap<>();
+		result.put("status", true);
+		result.put("datetime", new Date());
+		result.put("data", service.deleteWorkoutRecord(record));
+		return result;
+	}
 }

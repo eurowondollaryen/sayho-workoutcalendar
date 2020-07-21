@@ -19,4 +19,7 @@ public class WorkoutRecordService {
 	public int insertWorkoutRecord(Map<String, Object> record){
 			return dao.insertWorkoutRecord(record);
 	}
+	public int deleteWorkoutRecord(Map<String, Object> record){
+		return dao.deleteWorkoutRecord(record);
+	}
 }
