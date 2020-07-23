@@ -14,8 +14,8 @@ public class ChartService {
 	ChartDao dao;
 	
 	//전체 사용자 조회
-	public List<Map<String, Object>> getMonthlyChartData(){
+	public List<Map<String, Object>> getMonthlyChartData(Map<String, Object> record){
 			
-			return dao.getMonthlyChartData();
+			return dao.getMonthlyChartData(record);
 	}
 }

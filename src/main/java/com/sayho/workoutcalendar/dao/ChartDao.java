@@ -14,7 +14,7 @@ public class ChartDao {
 	
 	private static String NAME_SPACE = "com.sayho.workoutcalendar.dao.ChartDao.";
  
- 	public List<Map<String, Object>> getMonthlyChartData(){
- 		return sqlSession.selectList(NAME_SPACE+"testQuery");
+ 	public List<Map<String, Object>> getMonthlyChartData(Map<String, Object> record){
+ 		return sqlSession.selectList(NAME_SPACE+"getMonthlyChartData");
 	}
 }

@@ -72,9 +72,12 @@
 		<script>
 			var global_workout_cod = [];
 			var global_workout_data = [];
-			google.charts.load('current', {'packages':['corechart']});
-    		google.charts.setOnLoadCallback(drawChart);
-    		
+			var global_chart_data = [
+		          ['20200708', 1000, 400, 500],
+		          ['20200709', 1170, 460, 600],
+		          ['20200710', 660, 1120, 700],
+		          ['20200711', 1030, 540, 800]
+		    ];
 			/* NOT IMPLEMENTED YET .... IMPLEMENTED IN addWorkout.
 			NEED TO CLEAN CODE ! */
 			/* WHEN CLICK EACH WORKOUTRECORD IN CELL */
@@ -413,21 +416,21 @@
 				}
 			}
 			
+			
 			/* {startDate : '20200707'(char(8)), months : 3(number)}*/
 			function chartInit() {
 				$.ajax({
 					type: "post",
 					url: "/chart/getMonthlyChartData",
 					data: {
-						startDate: '20200707',
-						months: 3
+						startDate: '20200723',
+						months: '-3'
 					},
 					success: function(result) {
-						console.log('init success!');
+						console.log('chart data init success!');
 						console.log(result);
 						/* DRAW CHART */
-						
-						drawChart();
+						//drawChart();
 					},
 					error : function(xhr, textStatus, errorThrown) {
 						alert("차트 데이터 초기화에 실패했습니다..\n" + xhr.status + " " + xhr.statusText);
@@ -440,12 +443,7 @@
 		        data.addColumn('number', '가슴');
 		        data.addColumn('number', '등');
 		        data.addColumn('number', '하체');
-		        data.addRows([
-			          ['20200708', 1000, 400, 500],
-			          ['20200709', 1170, 460, 600],
-			          ['20200710', 660, 1120, 700],
-			          ['20200711', 1030, 540, 800]
-			    ]);
+		        data.addRows(global_chart_data);
 
 		        var options = {
 		          title: '부위별 볼륨',
@@ -490,8 +488,10 @@
 					}
 				});
 				/* CHART INIT */
-				
-			    chartInit();
+				google.charts.load('current', {'packages':['corechart']});
+	    		google.charts.setOnLoadCallback(drawChart);
+	    		chartInit();
+	    		
 			});
 		</script>
 		<style>

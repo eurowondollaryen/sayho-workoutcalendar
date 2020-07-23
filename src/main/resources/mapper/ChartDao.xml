@@ -3,36 +3,11 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayho.workoutcalendar.dao.ChartDao">
-  <select id="testQuery" parameterType="String" resultType="com.sayho.workoutcalendar.model.Workout">
-    SELECT WO_DIV WODIV,
-           PART_MAIN_COD PARTMAINCOD,
-           PART_MAIN_NM PARTMAINNM,
-           PART_SUB_COD PARTSUBCOD,
-           PART_SUB_NM PARTSUBNM,
-           WO_COD WOCOD,
-           WO_NM_EN WONMEN,
-           WO_NM_KOR WONMKOR,
-           WEIGHT_RATE WEIGHTRATE
-    FROM COMWORKOUTS
-  </select> 
-  <!-- 
-  <insert id="insertUser"
-          parameterType="org.ltis.klid.ttprsvr.model.Ttpr001">
-    insert into ttpr001(userid, username, age)
-    values(#{userid}, #{username}, #{age})
-  </insert> 
   
-  <update id="updateUser"
-          parameterType="org.ltis.klid.ttprsvr.model.Ttpr001">
-  UPDATE ttpr001 
-     SET username = #{username},
-         age = #{age} 
-   WHERE userid = #{userid}
-  </update>
-  
-  <delete id="deleteUser" parameterType="int">
-  DELETE FROM ttpr001
-  WHERE userid = #{userid}
-  </delete>
--->
+  <select id="getMonthlyChartData" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT SEQ, USR_ID, REG_DT, WO_DT, PART_MAIN_COD, REST_TIME_SEC, SETS, REPS, WEIGHT, VOLUME
+    FROM ICTWORKOUTRECORD
+    WHERE USR_ID = 'sehoakasayho'
+    AND WO_DT BETWEEN TO_CHAR(TO_DATE(#{startDate}::VARCHAR, 'YYYYMMDD') + CONCAT(#{mohths}::VARCHAR, ' MONTHS')::INTERVAL, 'YYYYMMDD') AND #{startDate}::VARCHAR
+  </select>
 </mapper>
