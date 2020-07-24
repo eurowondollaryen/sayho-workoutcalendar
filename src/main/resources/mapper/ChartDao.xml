@@ -5,9 +5,17 @@
 <mapper namespace="com.sayho.workoutcalendar.dao.ChartDao">
   
   <select id="getMonthlyChartData" parameterType="java.util.Map" resultType="java.util.Map">
-    SELECT SEQ, USR_ID, REG_DT, WO_DT, PART_MAIN_COD, REST_TIME_SEC, SETS, REPS, WEIGHT, VOLUME
+    SELECT WO_DT,
+           SUM(CASE WHEN PART_MAIN_COD = '11' THEN VOLUME ELSE 0 END) CHEST,
+           SUM(CASE WHEN PART_MAIN_COD = '12' THEN VOLUME ELSE 0 END) BACK,
+           SUM(CASE WHEN PART_MAIN_COD = '21' THEN VOLUME ELSE 0 END) LEG
     FROM ICTWORKOUTRECORD
     WHERE USR_ID = 'sehoakasayho'
-    AND WO_DT BETWEEN TO_CHAR(TO_DATE(#{startDate}::VARCHAR, 'YYYYMMDD') + CONCAT(#{mohths}::VARCHAR, ' MONTHS')::INTERVAL, 'YYYYMMDD') AND #{startDate}::VARCHAR
+    AND WO_DT BETWEEN TO_CHAR(
+                              TO_DATE(#{startDate}, 'YYYYMMDD')
+                              + CONCAT('-', #{months}::INTEGER, ' MONTHS')::INTERVAL
+                              ,'YYYYMMDD') AND #{startDate}
+    GROUP BY WO_DT
+    ORDER BY WO_DT
   </select>
 </mapper>

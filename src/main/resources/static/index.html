@@ -72,12 +72,7 @@
 		<script>
 			var global_workout_cod = [];
 			var global_workout_data = [];
-			var global_chart_data = [
-		          ['20200708', 1000, 400, 500],
-		          ['20200709', 1170, 460, 600],
-		          ['20200710', 660, 1120, 700],
-		          ['20200711', 1030, 540, 800]
-		    ];
+			var global_chart_data = [];
 			/* NOT IMPLEMENTED YET .... IMPLEMENTED IN addWorkout.
 			NEED TO CLEAN CODE ! */
 			/* WHEN CLICK EACH WORKOUTRECORD IN CELL */
@@ -423,14 +418,24 @@
 					type: "post",
 					url: "/chart/getMonthlyChartData",
 					data: {
-						startDate: '20200723',
-						months: '-3'
+						startDate: '20200723',/*FOR TEST*/
+						months: 3
 					},
 					success: function(result) {
 						console.log('chart data init success!');
 						console.log(result);
+						console.log(result.data.length);
+						
+						for(var i = 0; i < result.data.length; ++i) {
+							var tempArr = [];
+							tempArr.push(result.data[i]["wo_dt"]);
+							tempArr.push(result.data[i]["chest"]);
+							tempArr.push(result.data[i]["back"]);
+							tempArr.push(result.data[i]["leg"]);
+							global_chart_data.push(tempArr);
+						}
 						/* DRAW CHART */
-						//drawChart();
+						drawChart();
 					},
 					error : function(xhr, textStatus, errorThrown) {
 						alert("차트 데이터 초기화에 실패했습니다..\n" + xhr.status + " " + xhr.statusText);

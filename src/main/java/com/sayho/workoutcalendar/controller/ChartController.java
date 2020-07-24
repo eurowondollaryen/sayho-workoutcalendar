@@ -23,9 +23,6 @@ public class ChartController {
 	public Map<String, Object> getMonthlyChartData(@RequestParam Map<String, Object> record,
 			HttpServletRequest request) throws Exception {
 		List<Map<String, Object>> chartData = service.getMonthlyChartData(record);
-		for(int i = 0; i < chartData.size(); ++i) {
-			System.out.println(chartData.get(i).toString());
-		}
 		Map<String, Object> result = new HashMap<>();
 		result.put("status", true);
 		result.put("datetime", new Date());
