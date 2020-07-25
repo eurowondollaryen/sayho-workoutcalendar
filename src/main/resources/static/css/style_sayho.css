@@ -1,0 +1,71 @@
+@charset "UTF-8";
+@font-face {
+	font-family: "NanumGothic";
+	src: url("../fonts/NanumGothic/NanumGothic.woff") format('woff');
+}
+body {
+	font-family: "NanumGothic", sans-serif;
+	background-color: #F5F5F5;
+}
+.sayho-textcenter {
+	vertical-align: middle;
+}
+.txt-algn-lft {
+	text-align: left;
+}
+.sayho-col {
+	display: inline-block;
+	width: 14.28%;
+	height: 75px;
+	border: solid 0.5px;
+	border-radius: 10px;
+	vertical-align: top;
+	padding: 5px;
+	font-size: 15px;
+	font-weight: bold;
+	overflow: hidden;
+}
+.sayho-col-6 {
+	display: inline-block;
+	width: 60%;
+}
+.sayho-col-2 {
+	display: inline-block;
+	width: 20%;
+}
+.sayho-row {
+	display: block;
+	width: 100%;
+}
+.sayho-calendar-left { text-align: left; }
+.sayho-calendar-right { text-align: right; }
+.sayho-calendar-title {
+	font-weight: bold;
+	font-size: 25px;
+	text-align: center;
+}
+.sayho-sunday .sayho-date-number {
+	color: #F64C72;
+}
+.sayho-saturday .sayho-date-number {
+	color: #4BB9F6;
+}
+/*
+.sayho-sunday {
+	background-color: #F64C72;
+}
+.sayho-saturday {
+	background-color: #4BB9F6;
+}
+*/
+.sayho-grayday {
+	background-color: #E5E5E5;
+}
+.workout-record {
+	width: 100%;
+	font-size: 10px;
+}
+.sayho-chart {
+	width: 100%;
+	height : 500px;
+}
