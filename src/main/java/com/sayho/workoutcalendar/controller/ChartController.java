@@ -22,11 +22,19 @@ public class ChartController {
 	@RequestMapping("/chart/getMonthlyChartData")
 	public Map<String, Object> getMonthlyChartData(@RequestParam Map<String, Object> record,
 			HttpServletRequest request) throws Exception {
-		List<Map<String, Object>> chartData = service.getMonthlyChartData(record);
+		//List<Map<String, Object>> chartData = service.getMonthlyChartData(record);
+		List<Map<String, Object>> chartDataChest = service.getMonthlyChartDataChest(record);
+		List<Map<String, Object>> chartDataBack = service.getMonthlyChartDataBack(record);
+		List<Map<String, Object>> chartDataLeg = service.getMonthlyChartDataLeg(record);
+		
+		
 		Map<String, Object> result = new HashMap<>();
 		result.put("status", true);
 		result.put("datetime", new Date());
-		result.put("data", chartData);
+		//result.put("data", chartData);
+		result.put("dataChest", chartDataChest);
+		result.put("dataBack", chartDataBack);
+		result.put("dataLeg", chartDataLeg);
 		return result;
 	}
 }

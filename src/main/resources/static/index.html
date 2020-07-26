@@ -516,7 +516,7 @@
 				<div class="container sayho-updown">
 					<h3><strong>나의 운동 현황</strong></h3>
 					<div class="tab">
-						<button class="tablinks" onclick="openPart(event, 'tab-chest')">가슴</button>
+						<button class="tablinks active" onclick="openPart(event, 'tab-chest')">가슴</button>
   						<button class="tablinks" onclick="openPart(event, 'tab-back')">등</button>
   						<button class="tablinks" onclick="openPart(event, 'tab-leg')">하체</button>
 					</div>
@@ -596,5 +596,20 @@
 		    </div>
 		  </div>
 		</div>
+		<!-- FOR TAB MENU -->
+		<script>
+			function openPart(evt, strPart) {
+				var tabContents = document.getElementsByClassName("tabcontent");
+				for(var i = 0; i < tabContents.length; ++i) {
+					tabContents[i].style.display = "none";
+				}
+				var tabLinks = document.getElementsByClassName("tablinks");
+				for(var i = 0; i < tabLinks.length; ++i) {
+					tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+				}
+				document.getElementById(strPart).style.display = "block";
+				evt.currentTarget.className += " active";
+			}
+		</script>
 	</body>
 </html>

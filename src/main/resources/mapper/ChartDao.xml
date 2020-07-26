@@ -18,4 +18,82 @@
     GROUP BY WO_DT
     ORDER BY WO_DT
   </select>
+  <select id="getMonthlyChartChest" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT A.WO_DT,
+           B.PART_MAIN_COD,
+           B.PART_MAIN_NM,
+           B.WO_COD,
+           B.WO_NM_KOR,
+           A.REST_TIME_SEC,
+           A.SETS,
+           A.REPS,
+           A.WEIGHT,
+           A.VOLUME
+    FROM (
+          SELECT WO_DT, PART_MAIN_COD, WO_COD, REST_TIME_SEC, SETS, REPS, WEIGHT, VOLUME
+          FROM ICTWORKOUTRECORD
+          WHERE USR_ID = 'sehoakasayho'
+          AND PART_MAIN_COD = '11'/*CHEST*/
+          ) A,
+         (
+          SELECT PART_MAIN_COD, PART_MAIN_NM, PART_SUB_COD, PART_SUB_NM, WO_COD, WO_NM_KOR
+          FROM COMWORKOUTS
+          WHERE PART_MAIN_COD = '11'/*CHEST*/
+          ) B
+    WHERE A.PART_MAIN_COD = B.PART_MAIN_COD
+    AND A.WO_COD = B.WO_COD
+    ORDER BY A.WO_DT
+  </select>
+  <select id="getMonthlyChartBack" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT A.WO_DT,
+           B.PART_MAIN_COD,
+           B.PART_MAIN_NM,
+           B.WO_COD,
+           B.WO_NM_KOR,
+           A.REST_TIME_SEC,
+           A.SETS,
+           A.REPS,
+           A.WEIGHT,
+           A.VOLUME
+    FROM (
+          SELECT WO_DT, PART_MAIN_COD, WO_COD, REST_TIME_SEC, SETS, REPS, WEIGHT, VOLUME
+          FROM ICTWORKOUTRECORD
+          WHERE USR_ID = 'sehoakasayho'
+          AND PART_MAIN_COD = '12'/*BACK*/
+          ) A,
+         (
+          SELECT PART_MAIN_COD, PART_MAIN_NM, PART_SUB_COD, PART_SUB_NM, WO_COD, WO_NM_KOR
+          FROM COMWORKOUTS
+          WHERE PART_MAIN_COD = '12'/*BACK*/
+          ) B
+    WHERE A.PART_MAIN_COD = B.PART_MAIN_COD
+    AND A.WO_COD = B.WO_COD
+    ORDER BY A.WO_DT
+  </select>
+  <select id="getMonthlyChartLeg" parameterType="java.util.Map" resultType="java.util.Map">
+  SELECT A.WO_DT,
+           B.PART_MAIN_COD,
+           B.PART_MAIN_NM,
+           B.WO_COD,
+           B.WO_NM_KOR,
+           A.REST_TIME_SEC,
+           A.SETS,
+           A.REPS,
+           A.WEIGHT,
+           A.VOLUME
+    FROM (
+          SELECT WO_DT, PART_MAIN_COD, WO_COD, REST_TIME_SEC, SETS, REPS, WEIGHT, VOLUME
+          FROM ICTWORKOUTRECORD
+          WHERE USR_ID = 'sehoakasayho'
+          AND PART_MAIN_COD = '21'/*LEG*/
+          ) A,
+         (
+          SELECT PART_MAIN_COD, PART_MAIN_NM, PART_SUB_COD, PART_SUB_NM, WO_COD, WO_NM_KOR
+          FROM COMWORKOUTS
+          WHERE PART_MAIN_COD = '21'/*LEG*/
+          ) B
+    WHERE A.PART_MAIN_COD = B.PART_MAIN_COD
+    AND A.WO_COD = B.WO_COD
+    ORDER BY A.WO_DT
+  </select>
 </mapper>
