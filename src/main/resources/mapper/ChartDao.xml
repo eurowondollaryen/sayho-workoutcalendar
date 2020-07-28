@@ -18,7 +18,7 @@
     GROUP BY WO_DT
     ORDER BY WO_DT
   </select>
-  <select id="getMonthlyChartChest" parameterType="java.util.Map" resultType="java.util.Map">
+  <select id="getMonthlyChartDataChest" parameterType="java.util.Map" resultType="java.util.Map">
     SELECT A.WO_DT,
            B.PART_MAIN_COD,
            B.PART_MAIN_NM,
@@ -44,7 +44,7 @@
     AND A.WO_COD = B.WO_COD
     ORDER BY A.WO_DT
   </select>
-  <select id="getMonthlyChartBack" parameterType="java.util.Map" resultType="java.util.Map">
+  <select id="getMonthlyChartDataBack" parameterType="java.util.Map" resultType="java.util.Map">
     SELECT A.WO_DT,
            B.PART_MAIN_COD,
            B.PART_MAIN_NM,
@@ -70,7 +70,7 @@
     AND A.WO_COD = B.WO_COD
     ORDER BY A.WO_DT
   </select>
-  <select id="getMonthlyChartLeg" parameterType="java.util.Map" resultType="java.util.Map">
+  <select id="getMonthlyChartDataLeg" parameterType="java.util.Map" resultType="java.util.Map">
   SELECT A.WO_DT,
            B.PART_MAIN_COD,
            B.PART_MAIN_NM,
