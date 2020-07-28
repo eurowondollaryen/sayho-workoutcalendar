@@ -19,21 +19,9 @@ public class ChartService {
 			return dao.getMonthlyChartData(record);
 	}
 	
-	//최근 n개월간 가슴운동 데이터 조회
-	public List<Map<String, Object>> getMonthlyChartDataChest(Map<String, Object> record){
+	//최근 n개월간 부위에 대한 데이터 조회
+	public List<Map<String, Object>> getMonthlyChartDataByPart(Map<String, Object> record){
 		
-		return dao.getMonthlyChartDataChest(record);
-	}
-	
-	//최근 n개월간 등운동 데이터 조회
-	public List<Map<String, Object>> getMonthlyChartDataBack(Map<String, Object> record){
-		
-		return dao.getMonthlyChartDataBack(record);
-	}
-	
-	//최근 n개월간 하체운동 데이터 조회
-	public List<Map<String, Object>> getMonthlyChartDataLeg(Map<String, Object> record){
-		
-		return dao.getMonthlyChartDataLeg(record);
+		return dao.getMonthlyChartDataByPart(record);
 	}
 }

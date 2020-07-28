@@ -18,15 +18,7 @@ public class ChartDao {
  		return sqlSession.selectList(NAME_SPACE+"getMonthlyChartData", record);
 	}
  	
- 	public List<Map<String, Object>> getMonthlyChartDataChest(Map<String, Object> record){
- 		return sqlSession.selectList(NAME_SPACE+"getMonthlyChartDataChest", record);
-	}
- 	
- 	public List<Map<String, Object>> getMonthlyChartDataBack(Map<String, Object> record){
- 		return sqlSession.selectList(NAME_SPACE+"getMonthlyChartDataBack", record);
-	}
- 	
- 	public List<Map<String, Object>> getMonthlyChartDataLeg(Map<String, Object> record){
- 		return sqlSession.selectList(NAME_SPACE+"getMonthlyChartDataLeg", record);
+ 	public List<Map<String, Object>> getMonthlyChartDataByPart(Map<String, Object> record){
+ 		return sqlSession.selectList(NAME_SPACE+"getMonthlyChartDataByPart", record);
 	}
 }

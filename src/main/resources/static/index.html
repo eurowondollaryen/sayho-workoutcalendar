@@ -51,12 +51,12 @@
 		<script>
 			var global_workout_cod = [];
 			var global_workout_data = [];
-			var global_chart_data = [];
-			
-			function openPart(event, part) {
-				
-			}
-			
+			var global_chart_data_chest = [];
+			var global_chart_data_back = [];
+			var global_chart_data_leg = [];
+			/* FOR CHART */
+			google.charts.load('current', {'packages':['corechart']});
+			google.charts.setOnLoadCallback(drawCharts);
 			/* NOT IMPLEMENTED YET .... IMPLEMENTED IN addWorkout.
 			NEED TO CLEAN CODE ! */
 			/* WHEN CLICK EACH WORKOUTRECORD IN CELL */
@@ -403,29 +403,85 @@
 					url: "/chart/getMonthlyChartData",
 					data: {
 						startDate: '20200723',/*FOR TEST*/
-						months: 3
+						months: 3,
+						usrId: 'sehoakasayho'
 					},
 					success: function(result) {
 						console.log('chart data init success!');
-						console.log(result);
-						console.log(result.data.length);
-						
-						for(var i = 0; i < result.data.length; ++i) {
-							var tempArr = [];
-							tempArr.push(result.data[i]["wo_dt"]);
-							tempArr.push(result.data[i]["chest"]);
-							tempArr.push(result.data[i]["back"]);
-							tempArr.push(result.data[i]["leg"]);
-							global_chart_data.push(tempArr);
+						console.log(result.chartDataChest);
+						console.log(result.chartDataBack);
+						console.log(result.chartDataLeg);
+						for(var i = 0; i < result.chartDataChest.length; ++i) {
+							global_chart_data_chest.push([result.chartDataChest[i]["wo_dt"],
+								result.chartDataChest[i]["volume"]]);
+						}
+						for(var i = 0; i < result.chartDataBack.length; ++i) {
+							global_chart_data_back.push([result.chartDataBack[i]["wo_dt"],
+								result.chartDataBack[i]["volume"]]);
+						}
+						for(var i = 0; i < result.chartDataLeg.length; ++i) {
+							global_chart_data_leg.push([result.chartDataLeg[i]["wo_dt"],
+								result.chartDataLeg[i]["volume"]]);
 						}
 						/* DRAW CHART */
-						drawChart();
+						drawCharts();
 					},
 					error : function(xhr, textStatus, errorThrown) {
 						alert("차트 데이터 초기화에 실패했습니다..\n" + xhr.status + " " + xhr.statusText);
 					}
 				});
 			}
+			function drawCharts(){
+				drawChartChest();
+				drawChartBack();
+				drawChartLeg();
+			}
+			function drawChartChest() {
+				var data = new google.visualization.DataTable();
+				data.addColumn('string', '일자');
+				data.addColumn('number', 'volume');
+				data.addRows(global_chart_data_chest);
+				var options = {
+					title: '볼륨-가슴',
+				    subtitle: '(단위:kg)',
+				    legend: { position: 'bottom' },
+				    width: $("#workoutChartChest").width(),
+				    height: 500
+				};
+				var chart = new google.visualization.LineChart(document.getElementById('workoutChartChest'));
+				chart.draw(data, options);
+			}
+			function drawChartBack() {
+				var data = new google.visualization.DataTable();
+				data.addColumn('string', '일자');
+				data.addColumn('number', 'volume');
+				data.addRows(global_chart_data_back);
+				var options = {
+					title: '볼륨-등',
+				    subtitle: '(단위:kg)',
+				    legend: { position: 'bottom' },
+				    width: $("#workoutChartChest").width(),
+			        height: 500
+				};
+				var chart = new google.visualization.LineChart(document.getElementById('workoutChartBack'));
+				chart.draw(data, options);
+			}
+			function drawChartLeg() {
+				var data = new google.visualization.DataTable();
+				data.addColumn('string', '일자');
+				data.addColumn('number', 'volume');
+				data.addRows(global_chart_data_leg);
+				var options = {
+					title: '볼륨-하체',
+				    subtitle: '(단위:kg)',
+				    legend: { position: 'bottom' },
+				    width: $("#workoutChartChest").width(),
+				    height: 500
+				};
+				var chart = new google.visualization.LineChart(document.getElementById('workoutChartLeg'));
+				chart.draw(data, options);
+			}
+			/*
 			function drawChart() {
 				var data = new google.visualization.DataTable();
 		        data.addColumn('string', '일자');
@@ -437,14 +493,14 @@
 		        var options = {
 		          title: '부위별 볼륨',
 		          subtitle: '(단위:kg)',
-		          /*curveType: 'function',*/
 		          legend: { position: 'bottom' }
 		        };
 
-		        var chart = new google.visualization.LineChart(document.getElementById('workoutChart'));
+		        var chart = new google.visualization.LineChart(document.getElementById('workoutChartChest'));
 
 		        chart.draw(data, options);
 			}
+			*/
 			
 			$(document).ready(function() {
 				const today = new Date();
@@ -476,14 +532,10 @@
 						alert("운동 자료를 가져오는 데 실패했습니다..\n" + xhr.status + " " + xhr.statusText);
 					}
 				});
-				/* CHART INIT */
-				google.charts.load('current', {'packages':['corechart']});
-	    		google.charts.setOnLoadCallback(drawChart);
+				
 	    		chartInit();
 	    		
 			});
-			
-			
 		</script>
 		<style>
 			.sayho-updown {
@@ -521,14 +573,13 @@
   						<button class="tablinks" onclick="openPart(event, 'tab-leg')">하체</button>
 					</div>
 					<div id="tab-chest" class="tabcontent" style="display: block;">
-						<h3>가슴 차트 영역입니다.</h3>
-						<div id="workoutChart" class="sayho-chart"></div>
+						<div id="workoutChartChest" class="sayho-chart"></div>
 					</div>
 					<div id="tab-back" class="tabcontent">
-						<h3>등 차트 영역입니다.</h3>
+						<div id="workoutChartBack" class="sayho-chart"></div>
 					</div>
 					<div id="tab-leg" class="tabcontent">
-						<h3>하체 차트 영역입니다.</h3>
+						<div id="workoutChartLeg" class="sayho-chart"></div>
 					</div>
 					
 				</div>
