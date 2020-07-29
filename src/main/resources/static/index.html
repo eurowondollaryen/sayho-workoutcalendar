@@ -398,11 +398,12 @@
 			
 			/* {startDate : '20200707'(char(8)), months : 3(number)}*/
 			function chartInit() {
+				var td = new Date();
 				$.ajax({
 					type: "post",
 					url: "/chart/getMonthlyChartData",
 					data: {
-						startDate: '20200723',/*FOR TEST*/
+						startDate: getYymmddFromDate(td),/*FOR TEST*/
 						months: 3,
 						usrId: 'sehoakasayho'
 					},
