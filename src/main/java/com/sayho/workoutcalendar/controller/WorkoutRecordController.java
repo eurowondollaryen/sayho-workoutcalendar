@@ -41,7 +41,7 @@ public class WorkoutRecordController {
 		Integer restTimeSec = Integer.parseInt((String)record.get("restTimeSec"));
 		Integer sets = Integer.parseInt((String)record.get("sets"));
 		Integer weight = Integer.parseInt((String)record.get("weight"));
-		String reps = (String) record.get("strReps");
+		String reps = (String) record.get("reps");
 		
 		record.put("restTimeSec", restTimeSec);
 		record.put("sets", sets);
