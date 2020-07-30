@@ -251,6 +251,7 @@
 						document.getElementById("btnModalClose").click();
 						/* REFRESH PAGE */
 						buildCalendar(Number(woDt.substr(0,4)), Number(woDt.substr(4,2))-1);
+						chartInit();
 					},
 					error : function(xhr, textStatus, errorThrown) {
 						alert("운동을 등록하는 데 실패하였습니다..\n" + xhr.status + " " + xhr.statusText);
@@ -445,9 +446,9 @@
 				var options = {
 					title: '볼륨-가슴',
 				    subtitle: '(단위:kg)',
-				    legend: { position: 'bottom' },
+				    legend: { position: 'bottom' }/*,
 				    width: $("#workoutChartChest").width(),
-				    height: 500
+				    height: 500*/
 				};
 				var chart = new google.visualization.LineChart(document.getElementById('workoutChartChest'));
 				chart.draw(data, options);
@@ -460,9 +461,11 @@
 				var options = {
 					title: '볼륨-등',
 				    subtitle: '(단위:kg)',
-				    legend: { position: 'bottom' },
+				    legend: { position: 'bottom' }
+				
+					/*,
 				    width: $("#workoutChartChest").width(),
-			        height: 500
+			        height: 500*/
 				};
 				var chart = new google.visualization.LineChart(document.getElementById('workoutChartBack'));
 				chart.draw(data, options);
@@ -475,9 +478,9 @@
 				var options = {
 					title: '볼륨-하체',
 				    subtitle: '(단위:kg)',
-				    legend: { position: 'bottom' },
+				    legend: { position: 'bottom' }/*,
 				    width: $("#workoutChartChest").width(),
-				    height: 500
+				    height: 500*/
 				};
 				var chart = new google.visualization.LineChart(document.getElementById('workoutChartLeg'));
 				chart.draw(data, options);
